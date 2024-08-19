@@ -1,8 +1,8 @@
 // infraestructure.out.jpa.mapper.CategoryEntityMapper
-package com.example.Emazon.infrastructure.out.jpa.mapper;
+package com.example.emazon.infrastructure.out.jpa.mapper;
 
-import com.example.Emazon.domain.model.Category;
-import com.example.Emazon.infrastructure.out.jpa.entity.CategoryEntity;
+import com.example.emazon.domain.model.Category;
+import com.example.emazon.infrastructure.out.jpa.entity.CategoryEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

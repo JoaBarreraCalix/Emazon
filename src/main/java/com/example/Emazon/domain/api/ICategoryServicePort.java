@@ -1,7 +1,7 @@
 //domain.api.ICategoryServicePort
-package com.example.Emazon.domain.api;
+package com.example.emazon.domain.api;
 
-import com.example.Emazon.domain.model.Category;
+import com.example.emazon.domain.model.Category;
 
 import java.util.List;
 

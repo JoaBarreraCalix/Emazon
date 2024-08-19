@@ -1,9 +1,9 @@
 //domain.usecase.CategoryUseCases
-package com.example.Emazon.domain.usecase;
+package com.example.emazon.domain.usecase;
 
-import com.example.Emazon.domain.api.ICategoryServicePort;
-import com.example.Emazon.domain.model.Category;
-import com.example.Emazon.domain.spi.ICategoryPersistencePort;
+import com.example.emazon.domain.api.ICategoryServicePort;
+import com.example.emazon.domain.model.Category;
+import com.example.emazon.domain.spi.ICategoryPersistencePort;
 
 import java.util.List;
 

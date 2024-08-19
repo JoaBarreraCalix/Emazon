@@ -1,5 +1,5 @@
 // infraestructure.out.jpa.entity.CategoryEntity
-package com.example.Emazon.infrastructure.out.jpa.entity;
+package com.example.emazon.infrastructure.out.jpa.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

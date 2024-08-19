@@ -1,5 +1,5 @@
 // domain.model.Category
-package com.example.Emazon.domain.model;
+package com.example.emazon.domain.model;
 
 public class Category {
 

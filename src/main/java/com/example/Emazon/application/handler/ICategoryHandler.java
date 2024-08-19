@@ -1,7 +1,7 @@
 // application.handler.ICategoryHandler
-package com.example.Emazon.application.handler;
+package com.example.emazon.application.handler;
 
-import com.example.Emazon.application.dto.CategoryRequest;
+import com.example.emazon.application.dto.CategoryRequest;
 
 import java.util.List;
 

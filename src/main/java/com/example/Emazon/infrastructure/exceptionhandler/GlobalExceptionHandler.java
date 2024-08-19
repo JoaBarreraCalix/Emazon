@@ -1,8 +1,8 @@
 // infraestructure.exceptionhandler.GlobalExceptionHandler
-package com.example.Emazon.infrastructure.exceptionhandler;
+package com.example.emazon.infrastructure.exceptionhandler;
 
-import com.example.Emazon.infrastructure.exception.NoDataFoundException;
-import com.example.Emazon.infrastructure.exception.CategoryAlreadyExistsException;
+import com.example.emazon.infrastructure.exception.NoDataFoundException;
+import com.example.emazon.infrastructure.exception.CategoryAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,5 +1,5 @@
 // infraestructure.exception.CategoryAlreadyExistsException
-package com.example.Emazon.infrastructure.exception;
+package com.example.emazon.infrastructure.exception;
 
 public class CategoryAlreadyExistsException extends RuntimeException {
 

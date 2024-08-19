@@ -1,8 +1,8 @@
 // application.mapper.CategoryRequestMapper
-package com.example.Emazon.application.mapper;
+package com.example.emazon.application.mapper;
 
-import com.example.Emazon.application.dto.CategoryRequest;
-import com.example.Emazon.domain.model.Category;
+import com.example.emazon.application.dto.CategoryRequest;
+import com.example.emazon.domain.model.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

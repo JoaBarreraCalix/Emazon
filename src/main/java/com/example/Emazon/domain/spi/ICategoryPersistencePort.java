@@ -1,7 +1,7 @@
 //domain.spi.ICategoryPersistencePort
-package com.example.Emazon.domain.spi;
+package com.example.emazon.domain.spi;
 
-import com.example.Emazon.domain.model.Category;
+import com.example.emazon.domain.model.Category;
 
 import java.util.List;
 

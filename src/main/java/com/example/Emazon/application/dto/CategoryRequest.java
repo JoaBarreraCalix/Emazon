@@ -1,6 +1,6 @@
 //application.dto.CategoryRequest
 
-package com.example.Emazon.application.dto;
+package com.example.emazon.application.dto;
 
 
 import lombok.Getter;

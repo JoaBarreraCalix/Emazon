@@ -1,10 +1,10 @@
 // application.handler.CategoryHandler
-package com.example.Emazon.application.handler;
+package com.example.emazon.application.handler;
 
-import com.example.Emazon.application.dto.CategoryRequest;
-import com.example.Emazon.application.mapper.CategoryRequestMapper;
-import com.example.Emazon.domain.api.ICategoryServicePort;
-import com.example.Emazon.domain.model.Category;
+import com.example.emazon.application.dto.CategoryRequest;
+import com.example.emazon.application.mapper.CategoryRequestMapper;
+import com.example.emazon.domain.api.ICategoryServicePort;
+import com.example.emazon.domain.model.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

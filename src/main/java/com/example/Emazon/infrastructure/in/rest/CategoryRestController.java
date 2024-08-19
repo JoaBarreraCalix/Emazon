@@ -1,8 +1,8 @@
 // infraestructure.in.rest.CategoryRestController
-package com.example.Emazon.infrastructure.in.rest;
+package com.example.emazon.infrastructure.in.rest;
 
-import com.example.Emazon.application.dto.CategoryRequest;
-import com.example.Emazon.application.handler.ICategoryHandler;
+import com.example.emazon.application.dto.CategoryRequest;
+import com.example.emazon.application.handler.ICategoryHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
