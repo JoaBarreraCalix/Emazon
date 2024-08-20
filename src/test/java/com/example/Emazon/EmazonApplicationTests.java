@@ -8,6 +8,7 @@ class EmazonApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//NO SE XD
 	}
 
 }
