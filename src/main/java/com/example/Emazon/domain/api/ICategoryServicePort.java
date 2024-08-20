@@ -2,7 +2,8 @@
 package com.example.emazon.domain.api;
 
 import com.example.emazon.domain.model.Category;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ICategoryServicePort {
@@ -16,4 +17,6 @@ public interface ICategoryServicePort {
     void updateCategory(Category category);
 
     void deleteCategory(Long id);
+
+    Page<Category> listCategories(Pageable pageable, String sortOrder);
 }

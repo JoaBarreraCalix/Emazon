@@ -8,6 +8,8 @@ import com.example.emazon.domain.model.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,5 +51,11 @@ public class CategoryHandler implements ICategoryHandler {
     @Override
     public void deleteCategory(Long id) {
         categoryServicePort.deleteCategory(id);
+    }
+
+    @Override
+    public Page<CategoryRequest> listCategories(Pageable pageable, String sortOrder) {
+        return categoryServicePort.listCategories(pageable, sortOrder)
+                .map(categoryRequestMapper::toCategoryRequest);
     }
 }

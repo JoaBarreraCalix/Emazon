@@ -9,6 +9,10 @@ import com.example.emazon.infrastructure.out.jpa.entity.CategoryEntity;
 import com.example.emazon.infrastructure.out.jpa.mapper.CategoryEntityMapper;
 import com.example.emazon.infrastructure.out.jpa.repository.ICategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -49,5 +53,13 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
     @Override
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Category> listCategories(Pageable pageable, String sortOrder) {
+        Sort sort = Sort.by("name");
+        sort = "desc".equalsIgnoreCase(sortOrder) ? sort.descending() : sort.ascending();
+        return categoryRepository.findAll(PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort))
+                .map(categoryEntityMapper::toCategory);
     }
 }
