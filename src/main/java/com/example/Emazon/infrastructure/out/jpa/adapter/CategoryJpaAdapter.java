@@ -3,8 +3,6 @@ package com.example.emazon.infrastructure.out.jpa.adapter;
 
 import com.example.emazon.domain.model.Category;
 import com.example.emazon.domain.spi.ICategoryPersistencePort;
-import com.example.emazon.infrastructure.exception.NoDataFoundException;
-import com.example.emazon.infrastructure.exception.CategoryAlreadyExistsException;
 import com.example.emazon.infrastructure.out.jpa.entity.CategoryEntity;
 import com.example.emazon.infrastructure.out.jpa.mapper.CategoryEntityMapper;
 import com.example.emazon.infrastructure.out.jpa.repository.ICategoryRepository;
@@ -15,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class CategoryJpaAdapter implements ICategoryPersistencePort {
@@ -24,25 +23,23 @@ public class CategoryJpaAdapter implements ICategoryPersistencePort {
 
     @Override
     public void saveCategory(Category category) {
-        if (categoryRepository.findByName(category.getName()).isPresent()) {
-            throw new CategoryAlreadyExistsException();
-        }
         categoryRepository.save(categoryEntityMapper.toEntity(category));
     }
 
     @Override
     public List<Category> findAllCategories() {
         List<CategoryEntity> categoryEntities = categoryRepository.findAll();
-        if (categoryEntities.isEmpty()) {
-            throw new NoDataFoundException();
-        }
         return categoryEntityMapper.toCategoryList(categoryEntities);
     }
 
     @Override
-    public Category getCategory(Long id) {
-        return categoryEntityMapper.toCategory(categoryRepository.findById(id)
-                .orElseThrow(NoDataFoundException::new));
+    public Optional<Category> getCategory(Long id) {
+        return categoryRepository.findById(id).map(categoryEntityMapper::toCategory);
+    }
+
+    @Override
+    public Optional<Category> findByName(String name) {
+        return categoryRepository.findByName(name).map(categoryEntityMapper::toCategory);
     }
 
     @Override
