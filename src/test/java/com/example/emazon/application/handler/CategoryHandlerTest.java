@@ -4,6 +4,7 @@ import com.example.emazon.application.dto.CategoryRequest;
 import com.example.emazon.application.mapper.CategoryRequestMapper;
 import com.example.emazon.domain.api.ICategoryServicePort;
 import com.example.emazon.domain.model.Category;
+import com.example.emazon.domain.utils.PageCustom;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -93,5 +94,22 @@ class CategoryHandlerTest {
         categoryHandler.deleteCategory(1L);
 
         verify(categoryServicePort).deleteCategory(1L);
+    }
+
+    @Test
+    void testListCategories_Success() {
+        Category category = new Category(1L, "Electronics", "Devices");
+        CategoryRequest categoryRequest = new CategoryRequest();
+        categoryRequest.setName("Electronics");
+        categoryRequest.setDescription("Devices");
+
+        when(categoryServicePort.listCategories(0, 10, "asc"))
+                .thenReturn(new PageCustom<>(Collections.singletonList(category), 0, 10, 1));
+        when(categoryRequestMapper.toCategoryRequest(category)).thenReturn(categoryRequest);
+
+        PageCustom<CategoryRequest> result = categoryHandler.listCategories(0, 10, "asc");
+
+        assertEquals(1, result.getContent().size());
+        assertEquals("Electronics", result.getContent().get(0).getName());
     }
 }

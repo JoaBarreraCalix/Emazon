@@ -79,7 +79,13 @@ public class CategoryRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
+    @Operation(summary = "List all categories with pagination and sorting",
+            description = "Lists all categories with optional sorting by name (asc/desc) and pagination")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Categories retrieved successfully",
+                    content = @Content(schema = @Schema(implementation = PageCustom.class))),
+            @ApiResponse(responseCode = "404", description = "No categories found", content = @Content)
+    })
     @GetMapping("/paged")
     public ResponseEntity<PageCustom<CategoryRequest>> listCategories(
             @RequestParam(defaultValue = "0") int page,
