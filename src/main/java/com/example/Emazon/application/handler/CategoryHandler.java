@@ -8,6 +8,7 @@ import com.example.emazon.domain.model.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.example.emazon.domain.utils.PageCustom;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,5 +50,14 @@ public class CategoryHandler implements ICategoryHandler {
     @Override
     public void deleteCategory(Long id) {
         categoryServicePort.deleteCategory(id);
+    }
+
+    @Override
+    public PageCustom<CategoryRequest> listCategories(int page, int size, String sortOrder) {
+        PageCustom<Category> categoryPage = categoryServicePort.listCategories(page, size, sortOrder);
+        List<CategoryRequest> categoryRequests = categoryPage.getContent().stream()
+                .map(categoryRequestMapper::toCategoryRequest)
+                .collect(Collectors.toList());
+        return new PageCustom<>(categoryRequests, categoryPage.getPageNumber(), categoryPage.getPageSize(), categoryPage.getTotalElements());
     }
 }

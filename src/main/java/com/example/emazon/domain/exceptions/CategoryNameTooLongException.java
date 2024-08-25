@@ -1,3 +1,4 @@
+//domain.exceptions.CategoryNameTooLongException
 package com.example.emazon.domain.exceptions;
 
 public class CategoryNameTooLongException extends RuntimeException {

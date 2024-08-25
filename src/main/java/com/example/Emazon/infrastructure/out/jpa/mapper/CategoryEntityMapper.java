@@ -1,4 +1,4 @@
-// infraestructure.out.jpa.mapper.CategoryEntityMapper
+// infrastructure.out.jpa.mapper.CategoryEntityMapper
 package com.example.emazon.infrastructure.out.jpa.mapper;
 
 import com.example.emazon.domain.model.Category;

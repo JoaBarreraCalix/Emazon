@@ -1,4 +1,4 @@
-// infraestructure.out.jpa.entity.CategoryEntity
+// infrastructure.out.jpa.entity.CategoryEntity
 package com.example.emazon.infrastructure.out.jpa.entity;
 
 import jakarta.persistence.Entity;

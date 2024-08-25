@@ -1,3 +1,4 @@
+//infrastructure.configuration.OpenApiConfig
 package com.example.emazon.infrastructure.configuration;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;

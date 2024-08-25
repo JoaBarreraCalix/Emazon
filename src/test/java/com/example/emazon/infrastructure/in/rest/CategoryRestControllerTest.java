@@ -2,6 +2,7 @@ package com.example.emazon.infrastructure.in.rest;
 
 import com.example.emazon.application.dto.CategoryRequest;
 import com.example.emazon.application.handler.ICategoryHandler;
+import com.example.emazon.domain.utils.PageCustom;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -83,5 +84,25 @@ class CategoryRestControllerTest {
     void testDeleteCategory_Success() throws Exception {
         mockMvc.perform(delete("/categories/1"))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void testListCategories_Success() throws Exception {
+        CategoryRequest categoryRequest = new CategoryRequest();
+        categoryRequest.setName("Electronics");
+        categoryRequest.setDescription("Devices");
+
+        PageCustom<CategoryRequest> pageCustom = new PageCustom<>(Collections.singletonList(categoryRequest), 0, 10, 1);
+
+        when(categoryHandler.listCategories(0, 10, "asc")).thenReturn(pageCustom);
+
+        mockMvc.perform(get("/categories/paged")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .param("sortOrder", "asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].name").value("Electronics"))
+                .andExpect(jsonPath("$.content[0].description").value("Devices"));
     }
 }
