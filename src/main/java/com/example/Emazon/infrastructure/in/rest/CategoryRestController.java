@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -78,16 +76,5 @@ public class CategoryRestController {
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryHandler.deleteCategory(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @Operation(summary = "List all categories", description = "Lists all categories with optional sorting and pagination")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Categories retrieved successfully", content = @Content(schema = @Schema(implementation = CategoryRequest.class))),
-            @ApiResponse(responseCode = "404", description = "No categories found", content = @Content)
-    })
-    @GetMapping("/paged")
-    public ResponseEntity<Page<CategoryRequest>> listCategories(Pageable pageable, @RequestParam String sortOrder) {
-        Page<CategoryRequest> categories = categoryHandler.listCategories(pageable, sortOrder);
-        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 }
