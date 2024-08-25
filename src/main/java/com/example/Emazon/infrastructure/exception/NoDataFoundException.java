@@ -1,5 +1,5 @@
-// domain.exceptions.NoDataFoundException
-package com.example.emazon.domain.exceptions;
+// infraestructure.exception.NoDataFoundException
+package com.example.emazon.infrastructure.exception;
 
 public class NoDataFoundException extends RuntimeException {
 

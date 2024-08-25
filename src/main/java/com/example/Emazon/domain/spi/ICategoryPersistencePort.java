@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ICategoryPersistencePort {
 
@@ -14,9 +13,7 @@ public interface ICategoryPersistencePort {
 
     List<Category> findAllCategories();
 
-    Optional<Category> getCategory(Long id);  // Cambiado a Optional
-
-    Optional<Category> findByName(String name);  // Nuevo método para la validación de duplicados
+    Category getCategory(Long id);
 
     void updateCategory(Category category);
 
