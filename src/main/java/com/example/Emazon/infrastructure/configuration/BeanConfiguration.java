@@ -1,4 +1,4 @@
-// infraestructure.configuration.BeanConfiguration
+// infrastructure.configuration.BeanConfiguration
 package com.example.emazon.infrastructure.configuration;
 
 import com.example.emazon.domain.spi.ICategoryPersistencePort;

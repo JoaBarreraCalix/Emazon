@@ -1,4 +1,4 @@
-// infraestructure.out.jpa.adapter.CategoryJpaAdapter
+// infrastructure.out.jpa.adapter.CategoryJpaAdapter
 package com.example.emazon.infrastructure.out.jpa.adapter;
 
 import com.example.emazon.domain.model.Category;

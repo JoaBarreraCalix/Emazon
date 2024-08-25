@@ -1,9 +1,11 @@
+//domain.usecase.CategoryUseCases
 package com.example.emazon.domain.usecase;
 
 import com.example.emazon.domain.api.ICategoryServicePort;
 import com.example.emazon.domain.exceptions.*;
 import com.example.emazon.domain.model.Category;
 import com.example.emazon.domain.spi.ICategoryPersistencePort;
+import com.example.emazon.domain.utils.PageCustom;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +55,22 @@ public class CategoryUseCases implements ICategoryServicePort {
             throw new CategoryNotFoundException();
         }
         categoryPersistencePort.deleteCategory(id);
+    }
+
+    @Override
+    public PageCustom<Category> listCategories(int page, int size, String sortOrder) {
+        // Implementar lógica de ordenamiento y paginación en la capa de dominio
+        List<Category> sortedCategories = categoryPersistencePort.findAllCategories().stream()
+                .sorted((c1, c2) -> "asc".equalsIgnoreCase(sortOrder)
+                        ? c1.getName().compareTo(c2.getName())
+                        : c2.getName().compareTo(c1.getName()))
+                .toList();
+
+        int start = page * size;
+        int end = Math.min(start + size, sortedCategories.size());
+        List<Category> paginatedCategories = sortedCategories.subList(start, end);
+
+        return new PageCustom<>(paginatedCategories, page, size, sortedCategories.size());
     }
 
     private void validateCategory(Category category) {

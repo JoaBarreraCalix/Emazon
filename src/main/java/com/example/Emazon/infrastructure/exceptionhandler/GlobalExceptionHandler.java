@@ -1,4 +1,4 @@
-// infraestructure.exceptionhandler.GlobalExceptionHandler
+// infrastructure.exceptionhandler.GlobalExceptionHandler
 package com.example.emazon.infrastructure.exceptionhandler;
 
 import org.springframework.http.HttpStatus;

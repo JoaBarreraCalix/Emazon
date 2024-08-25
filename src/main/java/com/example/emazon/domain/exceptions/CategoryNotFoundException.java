@@ -1,3 +1,4 @@
+//domain.exceptions.CategoryNotFoundException
 package com.example.emazon.domain.exceptions;
 
 public class CategoryNotFoundException extends RuntimeException {

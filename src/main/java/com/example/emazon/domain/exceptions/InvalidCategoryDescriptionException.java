@@ -1,3 +1,4 @@
+//domain.exceptions.InvalidCategoryDescriptionException
 package com.example.emazon.domain.exceptions;
 
 public class InvalidCategoryDescriptionException extends RuntimeException {
