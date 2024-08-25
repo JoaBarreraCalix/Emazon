@@ -1,4 +1,3 @@
-// src/test/java/com/example/Emazon/application/handler/CategoryHandlerTest.java
 package com.example.emazon.application.handler;
 
 import com.example.emazon.application.dto.CategoryRequest;
@@ -7,52 +6,92 @@ import com.example.emazon.domain.api.ICategoryServicePort;
 import com.example.emazon.domain.model.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class CategoryHandlerTest {
 
+    @Mock
     private ICategoryServicePort categoryServicePort;
+
+    @Mock
     private CategoryRequestMapper categoryRequestMapper;
+
+    @InjectMocks
     private CategoryHandler categoryHandler;
 
     @BeforeEach
     void setUp() {
-        categoryServicePort = Mockito.mock(ICategoryServicePort.class);
-        categoryRequestMapper = Mockito.mock(CategoryRequestMapper.class);
-        categoryHandler = new CategoryHandler(categoryServicePort, categoryRequestMapper);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void testSaveCategory() {
-        CategoryRequest request = new CategoryRequest();
-        request.setName("Electronics");
-        request.setDescription("All kinds of electronic gadgets and devices.");
+        CategoryRequest categoryRequest = new CategoryRequest();
+        categoryRequest.setName("Electronics");
+        categoryRequest.setDescription("All kinds of electronic gadgets and devices.");
 
-        Category category = new Category(1L, "Electronics", "All kinds of electronic gadgets and devices.");
+        Category category = new Category();
+        when(categoryRequestMapper.toCategory(categoryRequest)).thenReturn(category);
 
-        when(categoryRequestMapper.toCategory(request)).thenReturn(category);
+        categoryHandler.saveCategory(categoryRequest);
 
-        categoryHandler.saveCategory(request);
-
-        verify(categoryServicePort, times(1)).saveCategory(any(Category.class));
+        verify(categoryServicePort).saveCategory(category);
     }
 
     @Test
     void testGetAllCategories() {
-        Category category = new Category(1L, "Electronics", "All kinds of electronic gadgets and devices.");
+        Category category = new Category();
         when(categoryServicePort.findAllCategories()).thenReturn(Collections.singletonList(category));
-        when(categoryRequestMapper.toCategoryRequest(any(Category.class))).thenReturn(new CategoryRequest());
 
-        List<CategoryRequest> result = categoryHandler.getAllCategories();
+        CategoryRequest categoryRequest = new CategoryRequest();
+        when(categoryRequestMapper.toCategoryRequest(category)).thenReturn(categoryRequest);
 
-        assertEquals(1, result.size());
-        verify(categoryServicePort, times(1)).findAllCategories();
+        List<CategoryRequest> categoryRequests = categoryHandler.getAllCategories();
+
+        assertEquals(1, categoryRequests.size());
+        assertEquals(categoryRequest, categoryRequests.get(0));
+    }
+
+    @Test
+    void testGetCategory() {
+        Category category = new Category();
+        when(categoryServicePort.getCategory(1L)).thenReturn(category);
+
+        CategoryRequest categoryRequest = new CategoryRequest();
+        when(categoryRequestMapper.toCategoryRequest(category)).thenReturn(categoryRequest);
+
+        CategoryRequest result = categoryHandler.getCategory(1L);
+
+        assertEquals(categoryRequest, result);
+    }
+
+    @Test
+    void testUpdateCategory() {
+        CategoryRequest categoryRequest = new CategoryRequest();
+        categoryRequest.setId(1L);
+        categoryRequest.setName("Updated Electronics");
+        categoryRequest.setDescription("Updated description.");
+
+        Category category = new Category();
+        when(categoryRequestMapper.toCategory(categoryRequest)).thenReturn(category);
+
+        categoryHandler.updateCategory(categoryRequest);
+
+        verify(categoryServicePort).updateCategory(category);
+    }
+
+    @Test
+    void testDeleteCategory() {
+        categoryHandler.deleteCategory(1L);
+
+        verify(categoryServicePort).deleteCategory(1L);
     }
 }
