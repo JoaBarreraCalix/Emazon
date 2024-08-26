@@ -2,9 +2,11 @@
 
 package com.example.emazon.infrastructure.in.rest;
 
+import com.example.emazon.application.dto.BrandRequest;
 import com.example.emazon.application.handler.IBrandHandler;
 import com.example.emazon.domain.exceptions.BrandAlreadyExistsException;
 import com.example.emazon.domain.exceptions.InvalidBrandNameException;
+import com.example.emazon.domain.utils.PageCustom;
 import com.example.emazon.infrastructure.exceptionhandler.GlobalExceptionHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 
 @WebMvcTest(controllers = BrandRestController.class)
 @Import(GlobalExceptionHandler.class)  // Importa explícitamente el RestExceptionHandler
@@ -59,5 +70,29 @@ class BrandRestControllerTest {
                                 }
                                 """))
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    void testListBrands_Success() throws Exception {
+        BrandRequest brand1 = new BrandRequest();
+        brand1.setName("Nike");
+        brand1.setDescription("Sportswear and accessories.");
+
+        BrandRequest brand2 = new BrandRequest();
+        brand2.setName("Adidas");
+        brand2.setDescription("Sportswear.");
+
+        PageCustom<BrandRequest> pageCustom = new PageCustom<>(Arrays.asList(brand1, brand2), 0, 10, 2);
+
+        when(brandHandler.listBrands(0, 10, "asc")).thenReturn(pageCustom);
+
+        mockMvc.perform(get("/brands/paged")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .param("sortOrder", "asc")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].name").value("Nike"))
+                .andExpect(jsonPath("$.content[1].name").value("Adidas"));
     }
 }
