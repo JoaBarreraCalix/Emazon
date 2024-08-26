@@ -3,10 +3,13 @@ package com.example.emazon.domain.usecase;
 import com.example.emazon.domain.exceptions.*;
 import com.example.emazon.domain.model.Brand;
 import com.example.emazon.domain.spi.IBrandPersistencePort;
+import com.example.emazon.domain.utils.PageCustom;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,5 +74,23 @@ class BrandUseCasesTest {
         Brand brand = new Brand(1L, "Nike", "");
 
         assertThrows(InvalidBrandDescriptionException.class, () -> brandUseCases.saveBrand(brand));
+    }
+
+    @Test
+    void listBrands_ShouldReturnPagedBrands() {
+        // Arrange
+        Brand brand1 = new Brand(1L, "Adidas", "Sportswear.");
+        Brand brand2 = new Brand(2L, "Nike", "Sportswear and accessories.");
+
+        // Configura el mock para devolver las marcas en el orden que deseas probar
+        List<Brand> brands = Arrays.asList(brand1, brand2);
+        when(brandPersistencePort.findAllBrands()).thenReturn(brands);
+
+        // Act
+        PageCustom<Brand> actualPage = brandUseCases.listBrands(0, 10, "asc");
+
+        // Assert
+        assertEquals("Adidas", actualPage.getContent().get(0).getName());
+        assertEquals("Nike", actualPage.getContent().get(1).getName());
     }
 }

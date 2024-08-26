@@ -3,11 +3,15 @@ package com.example.emazon.infrastructure.out.jpa.adapter;
 
 import com.example.emazon.domain.model.Brand;
 import com.example.emazon.domain.spi.IBrandPersistencePort;
+import com.example.emazon.domain.utils.PageCustom;
 import com.example.emazon.infrastructure.out.jpa.entity.BrandEntity;
 import com.example.emazon.infrastructure.out.jpa.mapper.BrandEntityMapper;
 import com.example.emazon.infrastructure.out.jpa.repository.IBrandRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,5 +30,24 @@ public class BrandJpaAdapter implements IBrandPersistencePort {
     public Optional<Brand> findByName(String name) {
         return brandRepository.findByName(name)
                 .map(brandEntityMapper::toBrand);
+    }
+
+    @Override
+    public List<Brand> findAllBrands() {
+        return brandEntityMapper.toBrandList(brandRepository.findAll());
+    }
+
+    @Override
+    public PageCustom<Brand> listBrands(int page, int size, String sortOrder) {
+        Sort sort = sortOrder.equalsIgnoreCase("asc") ? Sort.by("name").ascending() : Sort.by("name").descending();
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        var brandPage = brandRepository.findAll(pageRequest);
+
+        return new PageCustom<>(
+                brandEntityMapper.toBrandList(brandPage.getContent()),
+                page,
+                size,
+                brandPage.getTotalElements()
+        );
     }
 }

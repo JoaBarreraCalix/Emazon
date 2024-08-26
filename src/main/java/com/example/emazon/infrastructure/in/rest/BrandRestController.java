@@ -3,6 +3,7 @@ package com.example.emazon.infrastructure.in.rest;
 
 import com.example.emazon.application.dto.BrandRequest;
 import com.example.emazon.application.handler.IBrandHandler;
+import com.example.emazon.domain.utils.PageCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -29,5 +30,18 @@ public class BrandRestController {
     public ResponseEntity<Void> createBrand(@RequestBody BrandRequest brandRequest) {
         brandHandler.saveBrand(brandRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "List brands with pagination and sorting")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Brands listed successfully")
+    })
+    @GetMapping("/paged")
+    public ResponseEntity<PageCustom<BrandRequest>> listBrands(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam String sortOrder) {
+        PageCustom<BrandRequest> brands = brandHandler.listBrands(page, size, sortOrder);
+        return ResponseEntity.ok(brands);
     }
 }
