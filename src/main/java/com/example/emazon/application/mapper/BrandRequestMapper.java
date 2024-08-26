@@ -6,6 +6,8 @@ import com.example.emazon.domain.model.Brand;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BrandRequestMapper {
     Brand toBrand(BrandRequest brandRequest);

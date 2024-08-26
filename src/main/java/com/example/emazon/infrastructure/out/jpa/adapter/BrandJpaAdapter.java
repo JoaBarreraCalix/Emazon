@@ -8,6 +8,7 @@ import com.example.emazon.infrastructure.out.jpa.mapper.BrandEntityMapper;
 import com.example.emazon.infrastructure.out.jpa.repository.IBrandRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,5 +27,10 @@ public class BrandJpaAdapter implements IBrandPersistencePort {
     public Optional<Brand> findByName(String name) {
         return brandRepository.findByName(name)
                 .map(brandEntityMapper::toBrand);
+    }
+
+    @Override
+    public List<Brand> findAllBrands() {
+        return brandEntityMapper.toBrandList(brandRepository.findAll());
     }
 }
