@@ -7,7 +7,6 @@ import com.example.emazon.domain.model.Brand;
 import com.example.emazon.domain.spi.IBrandPersistencePort;
 import com.example.emazon.domain.utils.PageCustom;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
