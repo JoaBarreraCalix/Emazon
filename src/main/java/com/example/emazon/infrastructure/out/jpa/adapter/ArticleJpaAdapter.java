@@ -20,5 +20,5 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
         articleRepository.save(articleEntity);
     }
 
-    // Implementar otros métodos si es necesario...
+
 }

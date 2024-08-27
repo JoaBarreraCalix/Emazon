@@ -9,7 +9,6 @@ import com.example.emazon.domain.spi.ICategoryPersistencePort;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class ArticleUseCases implements IArticleServicePort {
 
@@ -41,7 +40,9 @@ public class ArticleUseCases implements IArticleServicePort {
             if (!categoryIds.add(category.getId())) {
                 throw new ArticleCannotHaveDuplicateCategoriesException();
             }
+        }
 
+        for (Category category : article.getCategories()) {
             // Verifica si la categoría existe en la base de datos
             Category existingCategory = categoryPersistencePort.getCategory(category.getId())
                     .orElseThrow(() -> new CategoryNotFoundException());

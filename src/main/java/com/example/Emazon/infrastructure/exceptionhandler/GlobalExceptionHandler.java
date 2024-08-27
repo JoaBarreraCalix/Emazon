@@ -17,35 +17,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("An unexpected error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(ArticleMustHaveAtLeastOneCategoryException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleArticleMustHaveAtLeastOneCategoryException(ArticleMustHaveAtLeastOneCategoryException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(ArticleCannotHaveMoreThanThreeCategoriesException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleArticleCannotHaveMoreThanThreeCategoriesException(ArticleCannotHaveMoreThanThreeCategoriesException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(ArticleCannotHaveDuplicateCategoriesException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleArticleCannotHaveDuplicateCategoriesException(ArticleCannotHaveDuplicateCategoriesException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(CategoryNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> handleCategoryNotFoundException(CategoryNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(InvalidCategoryDataException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleInvalidCategoryDataException(InvalidCategoryDataException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(BrandAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -104,6 +75,36 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CategoryDescriptionTooLongException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleCategoryDescriptionTooLongException(CategoryDescriptionTooLongException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ArticleMustHaveAtLeastOneCategoryException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleArticleMustHaveAtLeastOneCategoryException(ArticleMustHaveAtLeastOneCategoryException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ArticleCannotHaveMoreThanThreeCategoriesException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleArticleCannotHaveMoreThanThreeCategoriesException(ArticleCannotHaveMoreThanThreeCategoriesException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ArticleCannotHaveDuplicateCategoriesException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleArticleCannotHaveDuplicateCategoriesException(ArticleCannotHaveDuplicateCategoriesException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleCategoryNotFoundException(CategoryNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidCategoryDataException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleInvalidCategoryDataException(InvalidCategoryDataException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
