@@ -31,4 +31,8 @@ public class ArticleEntity {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<CategoryEntity> categories;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id", nullable = false)
+    private BrandEntity brand;
 }

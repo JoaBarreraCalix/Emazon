@@ -80,17 +80,6 @@ public class CategoryUseCases implements ICategoryServicePort {
     }
 
     private void validateCategory(Category category) {
-        if (category.getName() == null || category.getName().isEmpty()) {
-            throw new InvalidCategoryNameException();
-        }
-        if (category.getDescription() == null || category.getDescription().isEmpty()) {
-            throw new InvalidCategoryDescriptionException();
-        }
-        if (category.getName().length() > 50) {
-            throw new CategoryNameTooLongException();
-        }
-        if (category.getDescription().length() > 90) {
-            throw new CategoryDescriptionTooLongException();
-        }
+
     }
 }

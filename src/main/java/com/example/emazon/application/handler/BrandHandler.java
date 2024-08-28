@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BrandHandler implements IBrandHandler {
 
-    private final IBrandServicePort brandServicePort;  // Asegúrate de inyectar IBrandServicePort
+    private final IBrandServicePort brandServicePort;
     private final BrandRequestMapper brandRequestMapper;
 
     @Override

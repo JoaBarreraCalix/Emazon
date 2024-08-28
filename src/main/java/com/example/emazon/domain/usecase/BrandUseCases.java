@@ -23,7 +23,6 @@ public class BrandUseCases implements IBrandServicePort {
     public void saveBrand(Brand brand) {
         validateBrand(brand);
 
-        // Verificar si el nombre de la marca ya existe
         Optional<Brand> existingBrand = brandPersistencePort.findByName(brand.getName());
         if (existingBrand.isPresent()) {
             throw new BrandAlreadyExistsException();
@@ -36,7 +35,6 @@ public class BrandUseCases implements IBrandServicePort {
     public PageCustom<Brand> listBrands(int page, int size, String sortOrder) {
         List<Brand> brands = brandPersistencePort.findAllBrands();
 
-        // Sort logic in the domain layer
         List<Brand> sortedBrands = brands.stream()
                 .sorted((b1, b2) -> "asc".equalsIgnoreCase(sortOrder)
                         ? b1.getName().compareTo(b2.getName())
@@ -53,17 +51,6 @@ public class BrandUseCases implements IBrandServicePort {
     }
 
     private void validateBrand(Brand brand) {
-        if (brand.getName() == null || brand.getName().isEmpty()) {
-            throw new InvalidBrandNameException();
-        }
-        if (brand.getDescription() == null || brand.getDescription().isEmpty()) {
-            throw new InvalidBrandDescriptionException();
-        }
-        if (brand.getName().length() > 50) {
-            throw new BrandNameTooLongException();
-        }
-        if (brand.getDescription().length() > 120) {
-            throw new BrandDescriptionTooLongException();
-        }
+
     }
 }

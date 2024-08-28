@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class ArticleRestController {
             @ApiResponse(responseCode = "409", description = "Category data does not match or duplicate categories found", content = @Content)
     })
     @PostMapping("/")
-    public ResponseEntity<Void> createArticle(@RequestBody ArticleRequest articleRequest) {
+    public ResponseEntity<Void> createArticle(@Valid @RequestBody ArticleRequest articleRequest) {
         articleHandler.saveArticle(articleRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

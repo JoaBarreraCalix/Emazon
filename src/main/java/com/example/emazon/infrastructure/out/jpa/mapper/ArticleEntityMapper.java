@@ -3,6 +3,7 @@ package com.example.emazon.infrastructure.out.jpa.mapper;
 
 import com.example.emazon.domain.model.Article;
 import com.example.emazon.infrastructure.out.jpa.entity.ArticleEntity;
+import com.example.emazon.infrastructure.out.jpa.entity.BrandEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -10,4 +11,14 @@ import org.mapstruct.ReportingPolicy;
 public interface ArticleEntityMapper {
     ArticleEntity toEntity(Article article);
     Article toArticle(ArticleEntity articleEntity);
+
+    default BrandEntity mapBrandToEntity(com.example.emazon.domain.model.Brand brand) {
+        if (brand == null) {
+            return null;
+        }
+        BrandEntity brandEntity = new BrandEntity();
+        brandEntity.setName(brand.getName());
+        brandEntity.setDescription(brand.getDescription());
+        return brandEntity;
+    }
 }
