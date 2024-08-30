@@ -8,9 +8,12 @@ import com.example.emazon.domain.exceptions.*;
 import com.example.emazon.domain.spi.IArticlePersistencePort;
 import com.example.emazon.domain.spi.IBrandPersistencePort;
 import com.example.emazon.domain.spi.ICategoryPersistencePort;
+import com.example.emazon.domain.utils.PageCustom;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ArticleUseCases implements IArticleServicePort {
 
@@ -63,5 +66,27 @@ public class ArticleUseCases implements IArticleServicePort {
                 throw new InvalidCategoryDataException("Category ID " + category.getId() + " has invalid name or description");
             }
         }
+    }
+
+    @Override
+    public PageCustom<Article> listArticles(int page, int size, String sortOrder, String sortBy) {
+        List<Article> articles = articlePersistencePort.findAllArticles();
+
+        if (articles.isEmpty()) {
+            return new PageCustom<>(List.of(), page, size, 0);
+        }
+
+
+        System.out.println("Artículos recuperados: " + articles.size());
+
+
+        List<Article> sortedArticles = articles;
+        int totalElements = sortedArticles.size();
+        int startIndex = Math.min(page * size, totalElements);
+        int endIndex = Math.min(startIndex + size, totalElements);
+
+        List<Article> paginatedArticles = sortedArticles.subList(startIndex, endIndex);
+
+        return new PageCustom<>(paginatedArticles, page, size, totalElements);
     }
 }

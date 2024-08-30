@@ -23,6 +23,8 @@ public interface ArticleEntityMapper {
 
     Article toArticle(ArticleEntity articleEntity);
 
+
+    List<Article> toArticleList(List<ArticleEntity> articleEntities);
     ArticleEntity toEntity(Article article);
 
 
@@ -66,6 +68,8 @@ public interface ArticleEntityMapper {
         brandEntity.setDescription(brand.getDescription());
         return brandEntity;
     }
+
+
 
 
 }
