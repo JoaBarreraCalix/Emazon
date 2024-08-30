@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class ArticleRequest {
     @Schema(description = "List of categories that cannot be null or exceed 3", example = "id: 2, name: Guayos,  description: Zapatos deportivos para futbol")
     @NotNull(message = "The article must have at least one category")
     @Size(min = 1, max = 3, message = "The article must have between 1 and 3 categories")
+    @UniqueElements
     private List<Category> categories;
 
     @Schema(description = "Brand of the article", example = "Nike")
