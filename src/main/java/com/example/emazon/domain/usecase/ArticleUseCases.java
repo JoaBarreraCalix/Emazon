@@ -41,10 +41,10 @@ public class ArticleUseCases implements IArticleServicePort {
     private void validateBrand(Brand brand) {
 
         Brand existingBrand = brandPersistencePort.findByName(brand.getName())
-                .orElseThrow(() -> new BrandNotFoundException("Brand not found in the database"));
+                .orElseThrow(() -> new BrandNotFoundException());
 
         if (!existingBrand.getDescription().equals(brand.getDescription())) {
-            throw new InvalidBrandDataException("Brand data does not match with the existing brand in the database");
+            throw new InvalidBrandDataException();
         }
     }
 

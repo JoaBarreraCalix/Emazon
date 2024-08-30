@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.emazon.domain.utils.PageCustom;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -32,7 +30,7 @@ public class CategoryHandler implements ICategoryHandler {
         return categoryServicePort.findAllCategories()
                 .stream()
                 .map(categoryRequestMapper::toCategoryRequest)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -57,7 +55,7 @@ public class CategoryHandler implements ICategoryHandler {
         PageCustom<Category> categoryPage = categoryServicePort.listCategories(page, size, sortOrder);
         List<CategoryRequest> categoryRequests = categoryPage.getContent().stream()
                 .map(categoryRequestMapper::toCategoryRequest)
-                .collect(Collectors.toList());
+                .toList();
         return new PageCustom<>(categoryRequests, categoryPage.getPageNumber(), categoryPage.getPageSize(), categoryPage.getTotalElements());
     }
 }

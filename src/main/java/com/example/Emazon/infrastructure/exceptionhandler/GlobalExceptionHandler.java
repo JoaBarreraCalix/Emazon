@@ -1,6 +1,7 @@
 // infrastructure.exceptionhandler.GlobalExceptionHandler
 package com.example.emazon.infrastructure.exceptionhandler;
 
+import com.example.emazon.common.Constants;
 import com.example.emazon.domain.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGlobalException(Exception ex, WebRequest request) {
-        return new ResponseEntity<>("An unexpected error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(Constants.UNEX_ERROR + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

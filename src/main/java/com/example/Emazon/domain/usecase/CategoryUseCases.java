@@ -1,13 +1,13 @@
 //domain.usecase.CategoryUseCases
 package com.example.emazon.domain.usecase;
 
+import com.example.emazon.common.Constants;
 import com.example.emazon.domain.api.ICategoryServicePort;
 import com.example.emazon.domain.exceptions.*;
 import com.example.emazon.domain.model.Category;
 import com.example.emazon.domain.spi.ICategoryPersistencePort;
 import com.example.emazon.domain.utils.PageCustom;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +23,6 @@ public class CategoryUseCases implements ICategoryServicePort {
     public void saveCategory(Category category) {
         validateCategory(category);
 
-        // Validación de categoría duplicada
         Optional<Category> existingCategory = categoryPersistencePort.findByName(category.getName());
         if (existingCategory.isPresent()) {
             throw new CategoryAlreadyExistsException();
@@ -39,7 +38,6 @@ public class CategoryUseCases implements ICategoryServicePort {
 
     @Override
     public Category getCategory(Long id) {
-        // Validación de existencia de categoría
         return categoryPersistencePort.getCategory(id)
                 .orElseThrow(CategoryNotFoundException::new);
     }
@@ -52,7 +50,7 @@ public class CategoryUseCases implements ICategoryServicePort {
 
     @Override
     public void deleteCategory(Long id) {
-        if (!categoryPersistencePort.getCategory(id).isPresent()) {
+        if (categoryPersistencePort.getCategory(id).isEmpty()) {
             throw new CategoryNotFoundException();
         }
         categoryPersistencePort.deleteCategory(id);
@@ -61,25 +59,22 @@ public class CategoryUseCases implements ICategoryServicePort {
     @Override
     public PageCustom<Category> listCategories(int page, int size, String sortOrder) {
         List<Category> sortedCategories = categoryPersistencePort.findAllCategories().stream()
-                .sorted((c1, c2) -> "asc".equalsIgnoreCase(sortOrder)
+                .sorted((c1, c2) -> Constants.ASC_VALUE.equalsIgnoreCase(sortOrder)
                         ? c1.getName().compareTo(c2.getName())
                         : c2.getName().compareTo(c1.getName()))
                 .toList();
 
         int totalElements = sortedCategories.size();
-        int start = page * size;
-        int end = Math.min(start + size, totalElements);
+        List<Category> paginatedCategories = sortedCategories.stream()
+                .skip((long) page * size)
+                .limit(size)
+                .toList();
 
-        // Manejo del caso en que el índice de inicio está fuera del rango
-        if (start >= totalElements) {
-            return new PageCustom<>(Collections.emptyList(), page, size, totalElements);
-        }
-
-        List<Category> paginatedCategories = sortedCategories.subList(start, end);
         return new PageCustom<>(paginatedCategories, page, size, totalElements);
     }
 
     private void validateCategory(Category category) {
-
+        //ADD VALIDATIONS HERE
+        //P.D MOST OF THEM HAVE BEEN MOVE TO THE DTO TO BE VALIDATED TROUGH JAKARTA
     }
 }
