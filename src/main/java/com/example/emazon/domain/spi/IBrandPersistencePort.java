@@ -11,5 +11,4 @@ public interface IBrandPersistencePort {
     void saveBrand(Brand brand);
     Optional<Brand> findByName(String name);
     List<Brand> findAllBrands();
-    PageCustom<Brand> listBrands(int page, int size, String sortOrder);
 }

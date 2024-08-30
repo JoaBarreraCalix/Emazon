@@ -12,9 +12,9 @@ public interface ICategoryPersistencePort {
     void saveCategory(Category category);
     List<Category> findAllCategories();
 
-    Optional<Category> getCategory(Long id);  // Cambiado a Optional
+    Optional<Category> getCategory(Long id);
 
-    Optional<Category> findByName(String name);  // Nuevo método para la validación de duplicados
+    Optional<Category> findByName(String name);
 
     void updateCategory(Category category);
 

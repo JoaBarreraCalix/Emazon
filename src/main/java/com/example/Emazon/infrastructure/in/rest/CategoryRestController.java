@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class CategoryRestController {
             @ApiResponse(responseCode = "409", description = "Category already exists", content = @Content)
     })
     @PostMapping("/")
-    public ResponseEntity<Void> createCategory(@RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Void> createCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
         categoryHandler.saveCategory(categoryRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -63,7 +64,7 @@ public class CategoryRestController {
             @ApiResponse(responseCode = "404", description = "Category not found", content = @Content)
     })
     @PutMapping("/")
-    public ResponseEntity<Void> updateCategory(@RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Void> updateCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
         categoryHandler.updateCategory(categoryRequest);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
