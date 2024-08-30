@@ -1,3 +1,4 @@
+//domain.api.IArticleServicePort
 package com.example.emazon.domain.api;
 
 import com.example.emazon.domain.model.Article;

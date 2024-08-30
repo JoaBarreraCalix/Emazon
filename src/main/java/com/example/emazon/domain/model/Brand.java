@@ -1,4 +1,4 @@
-// domain.model.Brand
+//domain.model.Brand
 package com.example.emazon.domain.model;
 
 public class Brand {

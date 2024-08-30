@@ -1,3 +1,4 @@
+//domain.model.Article
 package com.example.emazon.domain.model;
 
 import java.util.List;
