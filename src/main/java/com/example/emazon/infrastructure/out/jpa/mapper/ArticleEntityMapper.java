@@ -14,36 +14,29 @@ import org.mapstruct.ReportingPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface ArticleEntityMapper {
 
-    // Mapea CategoryEntity a Category
     Category mapCategoryEntityToCategory(CategoryEntity categoryEntity);
-
-    // Mapea Category a CategoryEntity
     CategoryEntity mapCategoryToCategoryEntity(Category category);
 
-    // Mapea BrandEntity a Brand (Dominio)
+
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
     @Mapping(target = "description", source = "description")
     com.example.emazon.domain.model.Brand mapBrandEntityToBrand(BrandEntity brandEntity);
 
-    // Mapea Brand (Dominio) a BrandEntity
     BrandEntity mapBrandToEntity(com.example.emazon.domain.model.Brand brand);
 
-    // Mapea ArticleEntity a Article (Dominio)
-    @Mapping(source = "brand", target = "brand")  // Mapea la marca
-    @Mapping(source = "articleCategories", target = "categories")  // Mapea las categorías
+    @Mapping(source = "brand", target = "brand")
+    @Mapping(source = "articleCategories", target = "categories")
     Article toArticle(ArticleEntity articleEntity);
 
-    // Mapea Article (Dominio) a ArticleEntity
     ArticleEntity toEntity(Article article);
-
-    // Mapea una lista de ArticleEntity a una lista de Article
     List<Article> toArticleList(List<ArticleEntity> articleEntities);
 
-    // Mapea las categorías desde ArticleCategoryEntities a Categories
     default List<Category> mapArticleCategoryEntitiesToCategories(List<ArticleCategoryEntity> articleCategoryEntities) {
         if (articleCategoryEntities == null) {
             return new ArrayList<>();
@@ -59,7 +52,6 @@ public interface ArticleEntityMapper {
                 }).toList();
     }
 
-    // Mapea las categorías a ArticleCategoryEntities para persistencia
     default List<ArticleCategoryEntity> mapCategoriesToArticleCategoryEntities(Article article, ArticleEntity articleEntity) {
         if (article.getCategories() == null) {
             return new ArrayList<>();

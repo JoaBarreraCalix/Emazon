@@ -74,10 +74,8 @@ public class CategoryUseCases implements ICategoryServicePort {
     }
 
     private void validateCategory(Category category) {
-        //ADD VALIDATIONS HERE
-        //P.D MOST OF THEM HAVE BEEN MOVE TO THE DTO TO BE VALIDATED TROUGH JAKARTA
 
-        // Validación del nombre de la categoría
+
         if (category.getName() == null || category.getName().trim().isEmpty()) {
             throw new InvalidCategoryNameException();
         }
@@ -85,7 +83,6 @@ public class CategoryUseCases implements ICategoryServicePort {
             throw new CategoryNameTooLongException();
         }
 
-        // Validación de la descripción de la categoría
         if (category.getDescription() == null || category.getDescription().trim().isEmpty()) {
             throw new InvalidCategoryDescriptionException();
         }

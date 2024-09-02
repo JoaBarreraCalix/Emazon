@@ -5,7 +5,6 @@ import com.example.emazon.common.Constants;
 import com.example.emazon.domain.api.IBrandServicePort;
 import com.example.emazon.domain.exceptions.*;
 import com.example.emazon.domain.model.Brand;
-import com.example.emazon.domain.model.Category;
 import com.example.emazon.domain.spi.IBrandPersistencePort;
 import com.example.emazon.domain.utils.PageCustom;
 
@@ -58,10 +57,7 @@ public class BrandUseCases implements IBrandServicePort {
     }
 
     private void validateBrand(Brand brand) {
-        //ADD VALIDATIONS HERE
-        //P.D MOST OF THEM HAVE BEEN MOVE TO THE DTO TO BE VALIDATED TROUGH JAKARTA
 
-        // Validación del nombre de la marca
         if (brand.getName() == null || brand.getName().trim().isEmpty()) {
             throw new InvalidBrandNameException();
         }
@@ -69,7 +65,6 @@ public class BrandUseCases implements IBrandServicePort {
             throw new BrandNameTooLongException();
         }
 
-        // Validación de la descripción de la marca
         if (brand.getDescription() == null || brand.getDescription().trim().isEmpty()) {
             throw new InvalidBrandDescriptionException();
         }

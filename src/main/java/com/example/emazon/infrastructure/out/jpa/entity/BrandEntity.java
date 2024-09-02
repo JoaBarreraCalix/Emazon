@@ -18,6 +18,5 @@ public class BrandEntity {
     private Long id;
 
     private String name;
-
     private String description;
 }

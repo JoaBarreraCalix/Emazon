@@ -44,7 +44,7 @@ public class ArticleUseCases implements IArticleServicePort {
     private void validateBrand(Brand brand) {
 
         Brand existingBrand = brandPersistencePort.findByName(brand.getName())
-                .orElseThrow(() -> new BrandNotFoundException());
+                .orElseThrow(BrandNotFoundException::new);
 
         if (!existingBrand.getDescription().equals(brand.getDescription())) {
             throw new InvalidBrandDataException();
@@ -59,7 +59,7 @@ public class ArticleUseCases implements IArticleServicePort {
             }
 
             Category existingCategory = categoryPersistencePort.getCategory(category.getId())
-                    .orElseThrow(() -> new CategoryNotFoundException());
+                    .orElseThrow(CategoryNotFoundException::new);
 
             if (!existingCategory.getName().equals(category.getName()) ||
                     !existingCategory.getDescription().equals(category.getDescription())) {
@@ -70,7 +70,7 @@ public class ArticleUseCases implements IArticleServicePort {
 
     @Override
     public PageCustom<Article> listArticles(int page, int size, String sortOrder, String sortBy) {
-        // Obtener todos los artículos desde la persistencia
+
         List<Article> articles = articlePersistencePort.findAllArticles();
 
         if (articles.isEmpty()) {
@@ -79,7 +79,7 @@ public class ArticleUseCases implements IArticleServicePort {
 
 
 
-        // Ordenar artículos según el criterio (sortBy)
+
         List<Article> sortedArticles = articles.stream()
                 .sorted((a1, a2) -> {
                     int comparison = switch (sortBy.toLowerCase()) {
@@ -92,7 +92,7 @@ public class ArticleUseCases implements IArticleServicePort {
                 })
                 .toList();
 
-        // Paginación
+
         int totalElements = sortedArticles.size();
         int startIndex = Math.min(page * size, totalElements);
         int endIndex = Math.min(startIndex + size, totalElements);

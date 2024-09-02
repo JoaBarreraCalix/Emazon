@@ -8,10 +8,11 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface ArticleResponseMapper {
-    @Mapping(source = "brand.name", target = "brandName")  // Mapea el nombre de la marca
+    @Mapping(source = "brand.name", target = "brandName")
     ArticleResponse toResponse(Article article);
-
     List<ArticleResponse> toResponseList(List<Article> articles);
 }
