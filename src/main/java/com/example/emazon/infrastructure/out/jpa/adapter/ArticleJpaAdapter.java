@@ -42,13 +42,9 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
     public List<Article> findAllArticles() {
         List<ArticleEntity> articleEntities = articleRepository.findAll();
 
-        // Para forzar la carga de las relaciones de brand y categories
-        articleEntities.forEach(article -> {
-            Hibernate.initialize(article.getBrand());
-            Hibernate.initialize(article.getCategories());
-        });
-
         return articleEntityMapper.toArticleList(articleEntities);
+
+
     }
 
 
