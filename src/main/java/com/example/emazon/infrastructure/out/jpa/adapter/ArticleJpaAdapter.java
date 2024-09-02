@@ -10,6 +10,7 @@ import com.example.emazon.infrastructure.out.jpa.mapper.ArticleEntityMapper;
 import com.example.emazon.infrastructure.out.jpa.repository.IArticleRepository;
 import com.example.emazon.infrastructure.out.jpa.repository.IBrandRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 
 import java.util.List;
 
@@ -35,6 +36,15 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
         articleEntity.setBrand(brandEntity);
 
         articleRepository.save(articleEntity);
+    }
+
+    @Override
+    public List<Article> findAllArticles() {
+        List<ArticleEntity> articleEntities = articleRepository.findAll();
+
+        return articleEntityMapper.toArticleList(articleEntities);
+
+
     }
 
 

@@ -31,4 +31,5 @@ public class ArticleEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", nullable = false)
     private BrandEntity brand;
+
 }

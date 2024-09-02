@@ -2,7 +2,9 @@
 package com.example.emazon.infrastructure.in.rest;
 
 import com.example.emazon.application.dto.ArticleRequest;
+import com.example.emazon.application.dto.ArticleResponse;
 import com.example.emazon.application.handler.IArticleHandler;
+import com.example.emazon.domain.utils.PageCustom;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -32,5 +34,19 @@ public class ArticleRestController {
     public ResponseEntity<Void> createArticle(@Valid @RequestBody ArticleRequest articleRequest) {
         articleHandler.saveArticle(articleRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "List articles")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Articles listed successfully")
+    })
+    @GetMapping("/paged")
+    public ResponseEntity<PageCustom<ArticleResponse>> listArticles(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "asc") String sortOrder,
+            @RequestParam(defaultValue = "name") String sortBy) {
+
+        return ResponseEntity.ok(articleHandler.listArticles(page, size, sortOrder, sortBy));
     }
 }

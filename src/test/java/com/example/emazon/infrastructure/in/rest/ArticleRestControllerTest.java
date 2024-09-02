@@ -1,25 +1,27 @@
-// ArticleRestControllerTest.java
 package com.example.emazon.infrastructure.in.rest;
 
-import com.example.emazon.infrastructure.exceptionhandler.GlobalExceptionHandler;
+import com.example.emazon.application.dto.ArticleRequest;
 import com.example.emazon.application.handler.IArticleHandler;
-import com.example.emazon.domain.exceptions.ArticleCannotHaveDuplicateCategoriesException;
-import com.example.emazon.domain.exceptions.ArticleMustHaveAtLeastOneCategoryException;
+import com.example.emazon.domain.model.Brand;
+import com.example.emazon.domain.model.Category;
+import com.example.emazon.infrastructure.in.rest.ArticleRestController;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.Matchers.*;
 
 @WebMvcTest(ArticleRestController.class)
-@Import(GlobalExceptionHandler.class)  // Importar el GlobalExceptionHandler
 class ArticleRestControllerTest {
 
     @Autowired
@@ -28,58 +30,31 @@ class ArticleRestControllerTest {
     @MockBean
     private IArticleHandler articleHandler;
 
-    @Test
-    void testCreateArticle_WithoutCategories_ShouldReturnBadRequest() throws Exception {
-        // Configurar Mockito para lanzar la excepción cuando se llame a saveArticle con cualquier ArticleRequest
-        doThrow(new ArticleMustHaveAtLeastOneCategoryException())
-                .when(articleHandler).saveArticle(any());
+    private ArticleRequest validArticleRequest;
 
-        String jsonRequest = """
-            {
-                "name": "Zapatos Deportivos",
-                "description": "Zapatos ideales para correr",
-                "quantity": 10,
-                "price": 59.99,
-                "categories": []
-            }
-        """;
+    @BeforeEach
+    void setUp() {
+        Brand brand = new Brand(1L, "Nike", "Marca reconocida por sus innovadores zapatos deportivos.");
+        Category category = new Category(1L, "Hombre", "Producto para hombre.");
 
-        mockMvc.perform(post("/articles/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isBadRequest());
+        validArticleRequest = new ArticleRequest();
+        validArticleRequest.setName("Nike Air Max");
+        validArticleRequest.setDescription("Zapatos deportivos con amortiguación avanzada.");
+        validArticleRequest.setQuantity(20);
+        validArticleRequest.setPrice(150.0);
+        validArticleRequest.setBrand(brand);
+        validArticleRequest.setCategories(List.of(category));
     }
 
     @Test
-    void testCreateArticle_WithDuplicateCategories_ShouldReturnBadRequest() throws Exception {
-        // Configurar Mockito para lanzar la excepción cuando se llame a saveArticle con cualquier ArticleRequest
-        doThrow(new ArticleCannotHaveDuplicateCategoriesException())
-                .when(articleHandler).saveArticle(any());
-
-        String jsonRequest = """
-            {
-                "name": "Zapatos Deportivos",
-                "description": "Zapatos ideales para correr",
-                "quantity": 10,
-                "price": 59.99,
-                "categories": [
-                    {
-                        "id": 1,
-                        "name": "Deportivo",
-                        "description": "Articulo deportivo"
-                    },
-                    {
-                        "id": 1,
-                        "name": "Deportivo",
-                        "description": "Articulo deportivo"
-                    }
-                ]
-            }
-        """;
-
-        mockMvc.perform(post("/articles/")
+    void createArticle_ShouldReturnCreatedStatus_WhenArticleIsValid() throws Exception {
+        // Act & Assert
+        mockMvc.perform(MockMvcRequestBuilders.post("/articles/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isBadRequest());
+                        .content("{\"name\":\"Nike Air Max\",\"description\":\"Zapatos deportivos con amortiguación avanzada.\",\"quantity\":20,\"price\":150.0,\"categories\":[{\"id\":1,\"name\":\"Hombre\"}],\"brand\":{\"name\":\"Nike\"}}"))
+                .andExpect(status().isCreated());
     }
+
+
+
 }

@@ -8,9 +8,12 @@ import com.example.emazon.domain.exceptions.*;
 import com.example.emazon.domain.spi.IArticlePersistencePort;
 import com.example.emazon.domain.spi.IBrandPersistencePort;
 import com.example.emazon.domain.spi.ICategoryPersistencePort;
+import com.example.emazon.domain.utils.PageCustom;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ArticleUseCases implements IArticleServicePort {
 
@@ -63,5 +66,39 @@ public class ArticleUseCases implements IArticleServicePort {
                 throw new InvalidCategoryDataException("Category ID " + category.getId() + " has invalid name or description");
             }
         }
+    }
+
+    @Override
+    public PageCustom<Article> listArticles(int page, int size, String sortOrder, String sortBy) {
+        // Obtener todos los artículos desde la persistencia
+        List<Article> articles = articlePersistencePort.findAllArticles();
+
+        if (articles.isEmpty()) {
+            return new PageCustom<>(List.of(), page, size, 0);
+        }
+
+
+
+        // Ordenar artículos según el criterio (sortBy)
+        List<Article> sortedArticles = articles.stream()
+                .sorted((a1, a2) -> {
+                    int comparison = switch (sortBy.toLowerCase()) {
+                        case "name" -> a1.getName().compareTo(a2.getName());
+                        case "brand" -> a1.getBrand().getName().compareTo(a2.getBrand().getName());
+                        case "category" -> a1.getCategories().get(0).getName().compareTo(a2.getCategories().get(0).getName());
+                        default -> throw new IllegalArgumentException("Invalid sortBy parameter: " + sortBy);
+                    };
+                    return "asc".equalsIgnoreCase(sortOrder) ? comparison : -comparison;
+                })
+                .toList();
+
+        // Paginación
+        int totalElements = sortedArticles.size();
+        int startIndex = Math.min(page * size, totalElements);
+        int endIndex = Math.min(startIndex + size, totalElements);
+
+        List<Article> paginatedArticles = sortedArticles.subList(startIndex, endIndex);
+
+        return new PageCustom<>(paginatedArticles, page, size, totalElements);
     }
 }
