@@ -47,5 +47,10 @@ public class ArticleJpaAdapter implements IArticlePersistencePort {
 
     }
 
+    @Override
+    public boolean articleExistsById(Long articleId) {
+        return articleRepository.existsById(articleId);
+    }
+
 
 }

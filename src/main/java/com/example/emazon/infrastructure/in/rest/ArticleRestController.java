@@ -49,4 +49,10 @@ public class ArticleRestController {
 
         return ResponseEntity.ok(articleHandler.listArticles(page, size, sortOrder, sortBy));
     }
+
+    @GetMapping("/{articleId}/exists")
+    public ResponseEntity<Boolean> checkIfArticleExists(@PathVariable Long articleId) {
+        boolean exists = articleHandler.articleExists(articleId);
+        return new ResponseEntity<>(exists, HttpStatus.OK);
+    }
 }

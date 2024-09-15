@@ -8,4 +8,5 @@ import java.util.List;
 public interface IArticlePersistencePort {
     void saveArticle(Article article);
     List<Article> findAllArticles();
+    boolean articleExistsById(Long articleId);
 }

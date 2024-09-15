@@ -7,6 +7,7 @@ import com.example.emazon.application.mapper.ArticleRequestMapper;
 import com.example.emazon.application.mapper.ArticleResponseMapper;
 import com.example.emazon.domain.api.IArticleServicePort;
 import com.example.emazon.domain.model.Article;
+import com.example.emazon.domain.spi.IArticlePersistencePort;
 import com.example.emazon.domain.utils.PageCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class ArticleHandler implements IArticleHandler {
     private final IArticleServicePort articleServicePort;
     private final ArticleRequestMapper articleRequestMapper;
     private final ArticleResponseMapper articleResponseMapper;
+    private final IArticlePersistencePort articlePersistencePort;
 
     @Override
     public void saveArticle(ArticleRequest articleRequest) {
@@ -37,5 +39,10 @@ public class ArticleHandler implements IArticleHandler {
                 .toList();
 
         return new PageCustom<>(articleResponses, page, size, articlePage.getTotalElements());
+    }
+
+    @Override
+    public boolean articleExists(Long articleId) {
+        return articlePersistencePort.articleExistsById(articleId);
     }
 }
