@@ -25,7 +25,9 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Solo permitir que ROLE_ADMIN acceda a estos endpoints
+                        // Permitir acceso solo a AUX_BODEGA para el endpoint /articles/{articleId}/exists
+                        .requestMatchers("/articles/*/exists").hasRole("AUX_BODEGA")
+                        // Permitir acceso solo a ADMIN para crear artículos
                         .requestMatchers("/categories/**", "/brands/**", "/articles/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
